@@ -1,26 +1,22 @@
-# In this example multiple accounts can deposit their funds and safely take them back, no one can interfere with this.
+# In this example multiple accounts can deposit their funds to DAO and safely take them back, no one can interfere with this.
+# DAO participants can also vote for particular addresses and let them withdraw invested funds then quorum has reached.
 # An inner state is maintained as mapping `address=>waves`.
+# https://medium.com/waves-lab/waves-announces-funding-for-ride-for-dapps-developers-f724095fdbe1
 
 # You can try this contract by following commands in the IDE (ide.wavesplatform.com)
 # Run commands as listed below
 # From account #0:
-#      broadcast(transfer({recipient:address(env.accounts[1]), amount: 100000000, fee: 100000000}))
-#      broadcast(transfer({recipient:address(env.accounts[2]), amount: 100000000, fee: 100000000}))
-# From account #1:
 #      deploy()
-# From account #2:
-#      broadcast(invokeScript({dappAddress: address(env.accounts[1]), call:{function:"deposit",args:[]}, payment: [{amount: 300000000, asset:null }]}))
-#      # observe state and balance of account(1)
-#      broadcast(invokeScript({dappAddress: address(env.accounts[1]), call:{function:"deposit",args:[]}, payment: [{amount: 200000000, asset:null }]}))
-#      # observe state and balance of account(1)
-#      broadcast(invokeScript({dappAddress: address(env.accounts[1]), call:{function:"withdraw",args:[{type:"integer", value: 600000000}]}, payment: []}))
-#      # observe error, nothing changed
-#      broadcast(invokeScript({dappAddress: address(env.accounts[1]), call:{function:"withdraw",args:[{type:"integer", value: 400000000}]}, payment: []}))
-#      # observe state and balance of account(1)
-
-#      broadcast(invokeScript({dappAddress: address(env.accounts[1]), call:{function:"vote",args:[{type:"integer", value: 400000000}, {type:"string", value: "xxx"}]}, payment: []}))
-#      # observe state and balance of account(1)
-
+# From account #1: deposit funds
+#      broadcast(invokeScript({dappAddress: address(env.accounts[1]), call:{function:"deposit",args:[]}, payment: [{amount: 100000000, asset:null }]}))
+# From account #2: deposit funds
+#      broadcast(invokeScript({dappAddress: address(env.accounts[1]), call:{function:"deposit",args:[]}, payment: [{amount: 100000000, asset:null }]}))
+# From account #1: vote for startup
+#      broadcast(invokeScript({dappAddress: address(env.accounts[1]), call:{function:"vote",args:[{type:"integer", value: 500000}, {type:"string", value: "3MrXEKJr9nDLNyVZ1d12Mq4jjeUYwxNjMsH"}]}, payment: []}))
+# From account #2: vote for startup
+#      broadcast(invokeScript({dappAddress: address(env.accounts[1]), call:{function:"vote",args:[{type:"integer", value: 500000}, {type:"string", value: "3MrXEKJr9nDLNyVZ1d12Mq4jjeUYwxNjMsH"}]}, payment: []}))
+# From account #3: get invested funds
+#      broadcast(invokeScript({dappAddress: address(env.accounts[1]), call:{function:"getFunds",args:[{type:"integer", value: 500000}]}, payment: []}))
 
 {-# STDLIB_VERSION 3 #-}
 {-# CONTENT_TYPE DAPP #-}
@@ -112,8 +108,8 @@ func vote(amount: Int, address: String) = {
     else ScriptResult(
                     WriteSet([
                         DataEntry(xxxInvestorBalance, currentAmount - amount),
-                        DataEntry(xxxStartupFund, currentVotes + 1),
-                        DataEntry(xxxInvestorBalance, currentFund + amount)
+                        DataEntry(xxxStartupVotes, currentVotes + 1),
+                        DataEntry(xxxStartupFund, currentFund + amount)
                         ]),
                     TransferSet([ScriptTransfer(i.caller, amount, unit)])
             )
