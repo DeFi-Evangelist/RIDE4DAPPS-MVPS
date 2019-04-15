@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+
+    <!-- Don't use this in production: -->
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="account"></div>
+    <div id="list"></div>
+    <script type="text/babel">
+        class Item extends React.Component {
+            constructor(props) {
+                super(props);
+            }
+            render() {
+                const data = this.props.data;
+                const index = this.props.index;
+                return (
+                    <div className="col-proposal">
+                        <p className="index">
+                            { index }
+                        </p>
+                        <p className="address">
+                            { data.address }
+                        </p>
+                        <p className="funds">
+                            { data.funds }
+                        </p>
+                        <p className="votes">
+                            { data.votes }
+                        </p>
+                        <br/>
+                    </div>
+
+                );
+            }
+        }
+        class Proposals extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = {
+                    data: []
+                };
+                this.grabItems = this.grabItems.bind(this);
+            }
+            grabItems() {
+                const el = {
+                    "avatar": "https://icobench.com/images/icos/icons/waves.jpg",
+                    "id": "1",
+                    "address": "3N4GgQWCckqUn1H9y8rNRyCXZPkgKTNKznT",
+                    "funds": "0.6",
+                    "votes": "2",
+                    "action": "deposit"
+                };
+                const arr = [
+                    el,
+                    el,
+                    el
+                ];
+                this.setState({
+                    data: arr,
+                });
+            }
+            componentDidMount(){
+                this.grabItems();
+            }
+            render() {
+                const st = this.state.data;
+                return (
+                    <div className="container">
+                        {
+                            st ? st.map((req, index) => { return (<Item data={req} index = {index} key={index}/>)})
+                                    : <div className="none">no proposals</div>
+                        }
+                    </div>
+                );
+            }
+        }
+
+        ReactDOM.render(<Proposals/>, document.getElementById('list'));
+    </script>
+  </body>
+</html>
