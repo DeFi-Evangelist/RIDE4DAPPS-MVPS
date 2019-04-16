@@ -46,9 +46,22 @@
                 this.state = {
                     data: []
                 };
+                this.baseUri = 'https://testnodes.wavesnodes.com/v0/';
+                this.dappadress = '3N4GgQWCckqUn1H9y8rNRyCXZPkgKTNKznT';
                 this.grabItems = this.grabItems.bind(this);
             }
             grabItems() {
+                const API = this.baseUri + 'transactions/data' + '?sender=' + this.dappadress + '&sort=desc&limit=100';
+                return fetch(API, {
+                        method: 'GET', headers: {
+                        'Content-Type'    : 'application/json',
+                        'Accept'          : 'application/json'
+                                }
+                            }
+                        )
+                    .then(res => {
+                        console.log(res);
+                    });
                 const el = {
                     "avatar": "https://icobench.com/images/icos/icons/waves.jpg",
                     "id": "1",
