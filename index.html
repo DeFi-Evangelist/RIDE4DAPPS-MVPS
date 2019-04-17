@@ -10,37 +10,9 @@
     <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
   </head>
   <body>
-    <div id="account"></div>
-    <div id="list"></div>
+    <div id="app"></div>
     <script type="text/babel">
-        class Item extends React.Component {
-            constructor(props) {
-                super(props);
-            }
-            render() {
-                const data = this.props.data;
-                const index = this.props.index;
-                return (
-                    <div className="col-proposal">
-                        <p className="index">
-                            { index }
-                        </p>
-                        <p className="address">
-                            { data.address }
-                        </p>
-                        <p className="funds">
-                            { data.funds }
-                        </p>
-                        <p className="votes">
-                            { data.votes }
-                        </p>
-                        <br/>
-                    </div>
-
-                );
-            }
-        }
-        class Proposals extends React.Component {
+        class App extends React.Component {
             constructor(props) {
                 super(props);
                 this.state = {
@@ -48,54 +20,26 @@
                 };
                 this.baseUri = 'https://testnodes.wavesnodes.com/v0/';
                 this.dappadress = '3N4GgQWCckqUn1H9y8rNRyCXZPkgKTNKznT';
-                this.grabItems = this.grabItems.bind(this);
+                this.deposit = this.deposit.bind(this);
+                this.invest = this.invest.bind(this);
+                this.getFunds = this.getFunds.bind(this);
             }
-            grabItems() {
-                const API = this.baseUri + 'transactions/data' + '?sender=' + this.dappadress + '&sort=desc&limit=100';
-                return fetch(API, {
-                        method: 'GET', headers: {
-                        'Content-Type'    : 'application/json',
-                        'Accept'          : 'application/json'
-                                }
-                            }
-                        )
-                    .then(res => {
-                        console.log(res);
-                    });
-                const el = {
-                    "avatar": "https://icobench.com/images/icos/icons/waves.jpg",
-                    "id": "1",
-                    "address": "3N4GgQWCckqUn1H9y8rNRyCXZPkgKTNKznT",
-                    "funds": "0.6",
-                    "votes": "2",
-                    "action": "deposit"
-                };
-                const arr = [
-                    el,
-                    el,
-                    el
-                ];
-                this.setState({
-                    data: arr,
-                });
+            deposit() {
             }
-            componentDidMount(){
-                this.grabItems();
+            invest() {
+            }
+            getFunds() {
             }
             render() {
-                const st = this.state.data;
                 return (
                     <div className="container">
-                        {
-                            st ? st.map((req, index) => { return (<Item data={req} index = {index} key={index}/>)})
-                                    : <div className="none">no proposals</div>
-                        }
+
                     </div>
                 );
             }
         }
 
-        ReactDOM.render(<Proposals/>, document.getElementById('list'));
+        ReactDOM.render(<App/>, document.getElementById('app'));
     </script>
   </body>
 </html>
