@@ -60,8 +60,46 @@ class App extends React.Component {
               }
             }
             invest() {
+                if (window.confirm("Are you sure you wish to invest?")) {
+                  const params = {
+                      dappAddress: this.dappaddress,
+                      call: {
+                          function: "vote",
+                          args:[
+                              { type:"integer", value: this.state.invest.amount*this.wavelet },
+                              { type:"string", value: this.state.invest.address }
+                          ]
+                      },
+                      payment: [],
+                      chainId: 84
+                  };
+                  console.log(this.state.invest);
+                  console.log(params);
+                  let tx = invokeScript(params, this.state.invest.seed);
+                  this.updateValue("invest", "txid", tx.id);
+                  broadcast(tx, this.baseUri);
+              }
             }
             getFunds() {
+                if (window.confirm("Are you sure you wish to get invested funds now?")) {
+                  const params = {
+                      dappAddress: this.dappaddress,
+                      call: {
+                          function: "getFunds",
+                          args:[
+                              { type:"integer", value: this.state.getFunds.amount*this.wavelet },
+                              { type:"string", value: this.state.getFunds.address }
+                          ]
+                      },
+                      payment: [],
+                      chainId: 84
+                  };
+                  console.log(this.state.getFunds);
+                  console.log(params);
+                  let tx = invokeScript(params, this.state.getFunds.seed);
+                  this.updateValue("getFunds", "txid", tx.id);
+                  broadcast(tx, this.baseUri);
+              }
             }
             render() {
                 return (
