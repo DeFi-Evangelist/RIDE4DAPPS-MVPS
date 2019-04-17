@@ -33,13 +33,29 @@
             render() {
                 return (
                     <div className="container">
-
+                      <div className="deposit">
+                        <span>Deposit</span>
+                        <input type="text" placeholder="Seed phrase"/>
+                        <input type="text" placeholder="WAVES - Amount"/>
+                        <input type="submit" value="Deposit" className="submit button"/>
+                      </div>
+                      <div className="invest">
+                        <span>Invest</span>
+                        <input type="text" placeholder="Seed phrase"/>
+                        <input type="text" placeholder="WAVES - Amount"/>
+                        <input type="text" placeholder="Proposal Address"/>
+                        <input type="submit" value="Invest" className="submit button"/>
+                      <div className="Get Funds">
+                        <span>Get Funds</span>
+                        <input type="text" placeholder="Seed phrase"/>
+                        <input type="text" placeholder="WAVES - Amount"/>
+                        <input type="submit" value="Get Funds" className="submit button"/>
+                      </div>
                     </div>
                 );
             }
         }
-
-        ReactDOM.render(<App/>, document.getElementById('app'));
+    ReactDOM.render(<App/>, document.getElementById('app'));
     </script>
   </body>
 </html>
