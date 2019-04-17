@@ -116,20 +116,20 @@ class App extends React.Component {
                       <div className="invest">
                         <span>[Investor] Invest</span>
                         <span>: </span>
-                        <input type="text" placeholder="Seed phrase"/>
-                        <input type="text" placeholder="WAVES - Amount"/>
-                        <input type="text" placeholder="Proposal Address"/>
-                        <input type="submit" value="Invest" className="submit button"/>
-                        <a href="https://www.youtube.com/watch?v=k7gK7FgUFiU">Transaction: ...</a>
+                        <input type="text" placeholder="Seed phrase" onChange={(e) => this.updateValue("invest", "seed", e.target.value)}/>
+                        <input type="number" placeholder="WAVES - Amount" onChange={(e) => this.updateValue("invest", "amount", e.target.value)}/>
+                        <input type="text" placeholder="Proposal Address" onChange={(e) => this.updateValue("invest", "address", e.target.value)}/>
+                        <input type="submit" value="Invest" className="submit button" onClick={this.invest}/>
+                        <a href={this.explorerUrl + "/tx/" + this.state.invest.txid}>Transaction: {this.state.invest.txid}</a>
                         <br/>
                       </div>
                       <div className="Get Funds">
                         <span>[Startup] Get Funds</span>
                         <span>: </span>
-                        <input type="text" placeholder="Seed phrase"/>
-                        <input type="text" placeholder="WAVES - Amount"/>
-                        <input type="submit" value="Get Funds" className="submit button"/>
-                        <a href="https://www.youtube.com/watch?v=k7gK7FgUFiU">Transaction: ...</a>
+                        <input type="text" placeholder="Seed phrase" onChange={(e) => this.updateValue("getFunds", "seed", e.target.value)}/>
+                        <input type="number" placeholder="WAVES - Amount" onChange={(e) => this.updateValue("getFunds", "amount", e.target.value)}/>
+                        <input type="submit" value="Get Funds" className="submit button" onClick={this.getFunds}/>
+                        <a href={this.explorerUrl + "/tx/" + this.state.getFunds.txid}>Transaction: {this.state.getFunds.txid}</a>
                         <br/>
                       </div>
                     </div>
