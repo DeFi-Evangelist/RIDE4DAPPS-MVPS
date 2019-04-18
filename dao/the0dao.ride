@@ -104,20 +104,19 @@ func vote(amount: Int, address: String) = {
     if (amount <= 0)
             then throw("Can't withdraw negative amount")
     else if (amount > currentAmount)
-            then throw("Not enough balance")
-    else ScriptResult(
-                    WriteSet([
+            then throw("Not enough balance!")
+    else 
+            WriteSet([
                         DataEntry(xxxInvestorBalance, currentAmount - amount),
                         DataEntry(xxxStartupVotes, currentVotes + 1),
                         DataEntry(xxxStartupFund, currentFund + amount)
-                        ]),
-                    TransferSet([ScriptTransfer(i.caller, amount, unit)])
-            )
+            ])
     }
 @Verifier(tx)
 func verify() = {
     match tx {
-        case t: TransferTransaction =>false
-        case _ => true
+		case d: SetScriptTransaction =>
+			sigVerify(tx.bodyBytes, tx.proofs[0], base58'x51ySWMyhE8G2AqJqmDpe3qoQM2aBwmieiJzZLK33JW')
+		case _ => false
     }
 }
