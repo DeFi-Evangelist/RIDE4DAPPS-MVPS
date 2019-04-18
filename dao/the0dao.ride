@@ -89,6 +89,11 @@ func vote(amount: Int, address: String) = {
         let xxxInvestorBalance = currentKey + "_" + "ib"
         let xxxStartupFund = address + "_" + "sf"
         let xxxStartupVotes = address + "_" + "sv"
+        let flagKey = address + "_" + currentKey
+        let flag = match getInteger(this, flagKey) {
+            case a:Int => a
+            case _ => 0
+        }
         let currentAmount = match getInteger(this, xxxInvestorBalance) {
             case a:Int => a
             case _ => 0
@@ -105,10 +110,13 @@ func vote(amount: Int, address: String) = {
             then throw("Can't withdraw negative amount")
     else if (amount > currentAmount)
             then throw("Not enough balance!")
-    else 
+    else if (flag > 0)
+            then throw("Only one vote per project is possible!")
+    else
             WriteSet([
                         DataEntry(xxxInvestorBalance, currentAmount - amount),
                         DataEntry(xxxStartupVotes, currentVotes + 1),
+                        DataEntry(flagKey, 1),
                         DataEntry(xxxStartupFund, currentFund + amount)
             ])
     }
